@@ -1,4 +1,4 @@
-package com.bryan.ppmtool.domain.repositories;
+package com.bryan.ppmtool.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
