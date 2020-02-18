@@ -11,4 +11,4 @@ export const createProject = (project, history) => async dispatch => {
       payload: err.response.data
     });
   }
-}
+};
