@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -38,7 +39,9 @@ public class Project {
 	private Date endDate;
 	
 	@JsonFormat(pattern = "yyyy-mm-dd")
+	@Column(updatable = false)
 	private Date createdAt;
+	
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date updatedAt;
 
@@ -113,7 +116,8 @@ public class Project {
 	protected void onCreate() {
 		this.createdAt = new Date();
 	}
-
+	
+	@PreUpdate
 	protected void onUpdate() {
 		this.updatedAt = new Date();
 	}

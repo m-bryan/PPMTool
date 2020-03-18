@@ -12,8 +12,8 @@ class AddProject extends Component {
       projectName: "",
       projectIdentifier: "",
       description: "",
-      start_date: "",
-      end_date: "",
+      startDate: "",
+      endDate: "",
       errors: {}
     };
 
@@ -38,8 +38,8 @@ class AddProject extends Component {
       projectName: this.state.projectName,
       projectIdentifier: this.state.projectIdentifier,
       description: this.state.description,
-      start_date: this.state.start_date,
-      end_date: this.state.end_date
+      startDate: this.state.startDate,
+      endDate: this.state.endDate
     };
     this.props.createProject(newProject, this.props.history);
   }
@@ -111,8 +111,8 @@ class AddProject extends Component {
                     <input
                       type="date"
                       className="form-control form-control-lg"
-                      name="start_date"
-                      value={this.state.start_date}
+                      name="startDate"
+                      value={this.state.startDate}
                       onChange={this.onChange}
                     />
                   </div>
@@ -121,8 +121,8 @@ class AddProject extends Component {
                     <input
                       type="date"
                       className="form-control form-control-lg"
-                      name="end_date"
-                      value={this.state.end_date}
+                      name="endDate"
+                      value={this.state.endDate}
                       onChange={this.onChange}
                     />
                   </div>
