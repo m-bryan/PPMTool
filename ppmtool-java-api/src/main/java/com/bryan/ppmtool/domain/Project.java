@@ -2,11 +2,14 @@ package com.bryan.ppmtool.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
@@ -16,34 +19,37 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Project {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank(message = "Project name is required")
 	private String projectName;
-	
+
 	@NotBlank(message = "Project identifier name is required")
 	@Size(min = 4, max = 5, message = "Please use 4 to 5 characters")
 	@Column(updatable = false, unique = true)
 	private String projectIdentifier;
-	
+
 	@NotBlank(message = "Project description is required")
 	private String description;
-	
+
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date startDate;
-	
+
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date endDate;
-	
+
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	@Column(updatable = false)
 	private Date createdAt;
-	
+
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date updatedAt;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+	private Backlog backlog;
 
 	public Project() {
 	}
@@ -112,11 +118,19 @@ public class Project {
 		this.updatedAt = updatedAt;
 	}
 
+	public Backlog getBacklog() {
+		return backlog;
+	}
+
+	public void setBacklog(Backlog backlog) {
+		this.backlog = backlog;
+	}
+
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt = new Date();
 	}
-	
+
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedAt = new Date();
