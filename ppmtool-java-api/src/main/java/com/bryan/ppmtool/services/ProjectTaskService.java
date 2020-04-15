@@ -50,5 +50,11 @@ public class ProjectTaskService {
 		Project project = projectService.findProjectByProjectId(id);
 		return projectTaskRepository.findByProjectIdentifierOrderByPriority(project.getProjectIdentifier());
 	}
+	
+	public ProjectTask findPTByProjectSequence(String sequence) {
+		
+		
+		return projectTaskRepository.findByProjectSequence(sequence);
+	}
 
 }
