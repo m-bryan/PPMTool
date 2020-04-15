@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.bryan.ppmtool.domain.Backlog;
 import com.bryan.ppmtool.domain.Project;
 import com.bryan.ppmtool.domain.ProjectTask;
+import com.bryan.ppmtool.exceptions.ProjectNotFoundException;
 import com.bryan.ppmtool.repositories.BacklogRepository;
 import com.bryan.ppmtool.repositories.ProjectTaskRepository;
 
@@ -51,10 +52,18 @@ public class ProjectTaskService {
 		return projectTaskRepository.findByProjectIdentifierOrderByPriority(project.getProjectIdentifier());
 	}
 	
-	public ProjectTask findPTByProjectSequence(String sequence) {
+	public ProjectTask findPTByProjectSequence(String backlog_id, String pt_id) {
 		
+		Backlog backlog = backlogRepository.findByProjectIdentifier(backlog_id);
+		if(backlog == null) throw new ProjectNotFoundException("Project with ID '" + backlog_id +"' does not exist");
 		
-		return projectTaskRepository.findByProjectSequence(sequence);
+		ProjectTask projectTask = projectTaskRepository.findByProjectSequence(pt_id);
+		if(projectTask == null) throw new ProjectNotFoundException("Project task '" + pt_id +"' does not exist");
+		
+		if(!projectTask.getProjectIdentifier().equals(backlog.getProjectIdentifier())) 
+			throw new ProjectNotFoundException("Project task '" + pt_id +"' does not exist in project '" + backlog_id +"'");
+		
+		return projectTask;
 	}
 
 }
