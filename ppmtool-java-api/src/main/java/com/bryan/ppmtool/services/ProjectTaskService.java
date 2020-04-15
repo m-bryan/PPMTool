@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bryan.ppmtool.domain.Backlog;
+import com.bryan.ppmtool.domain.Project;
 import com.bryan.ppmtool.domain.ProjectTask;
 import com.bryan.ppmtool.repositories.BacklogRepository;
 import com.bryan.ppmtool.repositories.ProjectTaskRepository;
@@ -16,9 +17,15 @@ public class ProjectTaskService {
 
 	@Autowired
 	private ProjectTaskRepository projectTaskRepository;
+	
+	@Autowired
+	private ProjectService projectService;
 
 	public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
-		Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+		
+		Project project = projectService.findProjectByProjectId(projectIdentifier);
+		
+		Backlog backlog = backlogRepository.findByProjectIdentifier(project.getProjectIdentifier());
 		projectTask.setBacklog(backlog);
 
 		Integer backlogSequence = backlog.getPTSequence();
@@ -40,7 +47,8 @@ public class ProjectTaskService {
 	}
 	
 	public Iterable<ProjectTask> findBacklogById(String id) {
-		return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
+		Project project = projectService.findProjectByProjectId(id);
+		return projectTaskRepository.findByProjectIdentifierOrderByPriority(project.getProjectIdentifier());
 	}
 
 }
